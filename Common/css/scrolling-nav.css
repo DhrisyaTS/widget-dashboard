@@ -1,0 +1,126 @@
+/*!
+ * Start Bootstrap - Scrolling Nav (http://startbootstrap.com/)
+ * Copyright 2013-2016 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
+ */
+
+body {
+    width: 100%;
+    height: 100%;
+    background-image: url(../images/Saturn.png);
+    background-repeat: no-repeat;
+    background-color: #000000;
+    background-attachment: fixed;
+    background-position-y: -200px;
+}
+
+html {
+    width: 100%;
+    height: 100%;
+}
+
+@media(min-width:768px) {
+    .navbar {
+        padding: 20px 0;
+        -webkit-transition: background .5s ease-in-out, padding .5s ease-in-out;
+        -moz-transition: background .5s ease-in-out, padding .5s ease-in-out;
+        transition: background .5s ease-in-out, padding .5s ease-in-out;
+    }
+    .top-nav-collapse {
+        padding: 0;
+    }
+    .twoRow .navbar-collapse {
+        clear: left;
+    }
+    .navbar-brand {
+        margin-left: 0px !important;
+        font-size: 2.0em;
+    }
+    .navbar-header {
+        width: 100%;
+        margin-left: 76px;
+    }
+}
+
+
+/* Demo Sections - You can use these as guides or delete them - the scroller will work with any sort of height, fixed, undefined, or percentage based.
+The padding is very important to make sure the scrollspy picks up the right area when scrolled to. Adjust the margin and padding of sections and children 
+of those sections to manage the look and feel of the site. */
+
+section {
+    height: 100%;
+    padding-top: 150px;
+    text-align: center;
+}
+
+
+.media-body{
+    text-align: left;
+    padding-bottom: 15px;
+}
+
+.media-object {
+    height: 64px;
+    width: 64px;
+}
+
+.span-subheader {
+    text-align: center;
+}
+
+.textpadding {
+    padding-bottom: 20px;
+}
+
+.h1,
+h1 {
+    color: #f49d00;
+}
+
+section {
+    color: #fff;
+}
+section .container{
+        background-color: rgba(102, 102, 102, 0.6);
+        filter: alpha(opacity=60);
+}
+.para-body{
+    text-align: left;
+    padding-bottom: 15px;
+
+}
+.lpLogo
+{
+background-image: url(../images/LPIcon.png);
+background-repeat: no-repeat;
+ height:285px;
+}
+.text-highlighter
+{
+    color: #f49d00;
+    font-weight: bold;
+   
+    
+}
+
+section .container {
+    background-color: rgba(102, 102, 102, 0.6);
+    filter: alpha(opacity=60);
+}
+
+.navbar-inverse .navbar-nav>.active>a,
+.navbar-inverse .navbar-nav>.active>a:focus,
+.navbar-inverse .navbar-nav>.active>a:hover {
+    background-color: #666666!important;
+    color: #f49d00!important;
+}
+
+.primaryOrange {
+    color: #f49d00 !important;
+}
+
+.navbar .container {
+    padding-left: 0px !important;
+}
+
+.btn-link {}

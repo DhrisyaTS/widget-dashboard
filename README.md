@@ -1,2 +1,2 @@
-# widget-dashboard
-widget-dashboard
+# Widget-Dashboard
+Widget and Dashboard

@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/widget.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.6.10/css/perfect-scrollbar.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+    <!--<script src="js/jquery.js"></script>-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.1/jquery.toast.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.1/jquery.toast.min.js"></script>
+    <!--<script src="js/recomm.js"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.6.10/js/perfect-scrollbar.jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.js"></script>
+    <script>
+
+        function updateRecommendation(isAcceptClicked, recommId) {
+            var isAccepted;
+            var isRecommended;
+            var acceptButton = $('#btnAccept' + recommId);
+            var recommButton = $('#btnRecomment' + recommId);
+            if (acceptButton.length && recommButton.length) {
+                if (isAcceptClicked) {
+                    if (!acceptButton.hasClass("widget-button-green")) {
+                        isAccepted = true;
+                        isRecommended = true;
+                        recommButton.prop("disabled", true);
+                    }
+                    else {
+                        isAccepted = false;
+                        recommButton.prop("disabled", false);
+                        if (recommButton.hasClass("widget-button-green")) {
+                            isRecommended = true;
+                        }
+                        else {
+                            isRecommended = false;
+                        }
+                    }
+
+
+                }
+                else {
+                    if (!recommButton.hasClass("widget-button-green")) {
+                        isRecommended = true;
+                    }
+                    else {
+                        isRecommended = false;
+                    }
+                    if (acceptButton.hasClass("widget-button-green")) {
+                        isAccepted = true;
+                    }
+                    else {
+                        isAccepted = false;
+                    }
+
+                }
+            }
+            else {
+                showErrorMessage();
+            }
+            // var data = {
+            //     isAccepted: isAccepted,
+            //     isRecommended: isRecommended,
+            //     recommId: recommId
+            // }
+
+            var testdata = {
+                "customerId": "1",
+                "agentId": "1",
+                "sentiment": "Angry",
+                "customerType": "Low Spender",
+                "keywords": [],
+                "isFrequentReturner": "false"
+            };
+
+            $.ajax({
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('Authorization', 'Basic ' + btoa('teamj:teamj'));
+                },
+                url: 'https://lp01-team-j-server.herokuapp.com/api/v1/recommendations',
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                dataType: "json",
+                data: JSON.stringify(testdata),
+                success: function (resp) {
+                    console.log(resp);
+                    if (isAccepted) {
+                        acceptButton.removeClass("btn btn-default widget-button").addClass("btn btn-default widget-button widget-button-green");
+                        acceptButton.html('Accepted');
+                    }
+                    else {
+                        acceptButton.removeClass("btn btn-default widget-button widget-button-green").addClass("btn btn-default widget-button");
+                        acceptButton.html('Accept');
+                    }
+                    if (isRecommended) {
+                        recommButton.removeClass("btn btn-default widget-button").addClass("btn btn-default widget-button widget-button-green");
+                        recommButton.html('Recommended');
+                    }
+                    else {
+                        recommButton.removeClass("btn btn-default widget-button widget-button-green").addClass("btn btn-default widget-button");
+                        recommButton.html('Recommend');
+                    }
+
+
+                },
+                error: function (err) {
+                    showErrorMessage();
+                }
+            });
+        }
+
+        function showErrorMessage() {
+            $.toast({
+                text: "An error occured !",
+                showHideTransition: 'fade',
+                allowToastClose: false,
+                position: 'bottom-center',
+                textAlign: 'center',
+                loader: false,
+                bgColor: '#FF0000',
+                stack: 1
+            });
+        }
+        $(document).ready(function () {
+
+            $(".recom-scrol-content").mCustomScrollbar({ theme: "dark-thin" });
+            $(".widget-recom-container").mCustomScrollbar({ theme: "minimal-dark" });
+
+
+            // var op = {
+            //     suppressScrollX: false
+            // };
+            // $('.recom-scrol-container').perfectScrollbar({ suppressScrollX: false });
+            // $('.widget-recom-container').perfectScrollbar({ suppressScrollX: false });
+
+
+        });
+    </script>
+</head>
+
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+    <div class="widget-main container">
+
+        <div class="row widget-sentiment-customerType">
+            <div class="col-xs-5">
+                <span>Sentiment: </span>
+                <span class="widget-bold">Angry</span>
+            </div>
+            <div class="col-xs-7 widget-customer-type">
+                <span>Customer Type: </span>
+                <span class="widget-bold">Average Spender</span>
+            </div>
+        </div>
+        <div class="row widget-spacing widget-border">
+            <div class="col-xs-4  widget-keyword">
+                <span>Keywords Used: </span>
+            </div>
+            <div class="col-xs-8">
+                <span class="label label-primary widget-keywords-border">Birthday</span>
+                <span class="label label-primary widget-keywords-border">Urgent</span>
+                <span class="label label-primary widget-keywords-border">Delivery</span>
+                <span class="label label-primary widget-keywords-border">Pepsi</span>
+                <span class="label label-primary widget-keywords-border">Lays</span>
+                <span class="label label-primary widget-keywords-border">Coca cola</span>
+                <span class="label label-primary widget-keywords-border">Dew</span>
+                <span class="label label-primary widget-keywords-border">Birthday</span>
+            </div>
+        </div>
+        <div class="widget-recom-container">
+            <div class="widget-child-container">
+                <div class="widget-recomm">
+                    <div class="row widget-spacing">
+                        <div class="media">
+                            <div class="media-left widget-image">
+                                <a href="#">
+                                    <img class="media-object widget-object" src="images/dew.png" alt="...">
+                                </a>
+                            </div>
+                            <div class="media-body">
+                                <h5 class="media-heading widget-bold">Cross sell Product - $100 </h5>
+                                <div class="recom-scrol-container">
+                                    <p class="recom-scrol-content">
+                                        A new product has arrived which the customer might look forward to. He has already purchased similar products.
+                                    </p>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 widget-image-position">
+                            <button id="btnRecomment" type="button" class="btn btn-default widget-button" onclick="updateRecommendation(false,1)">Recommend</button>
+<button id="btnAccept" type="button" class="btn btn-default widget-button pull-right" onclick="updateRecommendation(true,1)">Accept</button>
+
+</div>
+
+
+</div>
+</div>
+<div class="widget-recomm">
+    <div class="row widget-spacing widget-scroll">
+        <div class="media">
+            <div class="media-left widget-image">
+                <a href="#">
+                    <img class="media-object widget-object" src="images/dew.png" alt="...">
+                </a>
+            </div>
+            <div class="media-body">
+                <h5 class="media-heading widget-bold">Cross sell Product - $100 </h5>
+                <div class="recom-scrol-container">
+                    <p class="recom-scrol-content">
+                        A new product has arrived which the customer might look forward to. He has already purchased similar products. A new product
+                        has arrived which the customer might look forward to. He has already purchased similar products.
+                        A new product has arrived which the customer might look forward to. He has already purchased similar
+                        products. A new product has arrived which the customer might look forward to. He has already purchased
+                        similar products. A new product has arrived which the customer might look forward to. He has already
+                        purchased similar products. A new product has arrived which the customer might look forward to. He
+                        has already purchased similar products. A new product has arrived which the customer might look forward
+                        to. He has already purchased similar products.
+                    </p>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="row widget-border">
+        <div class="col-xs-12 widget-image-position">
+            <button id="btnRecomment1" type="button" class="btn btn-default widget-button" onclick="updateRecommendation(false,1)">Recommend</button>
+<button id="btnAccept1" type="button" class="btn btn-default widget-button pull-right" onclick="updateRecommendation(true,1)">Accept</button>
+
+</div>
+
+
+</div>
+</div>
+
+<div class="widget-recomm">
+    <div class="row widget-spacing widget-scroll">
+        <div class="media">
+            <div class="media-left widget-image">
+                <a href="#">
+                    <img class="media-object widget-object" src="images/dew.png" alt="...">
+                </a>
+            </div>
+            <div class="media-body">
+                <h5 class="media-heading widget-bold">Cross sell Product - $100 </h5>
+                <div class="recom-scrol-container">
+                    <p class="recom-scrol-content">
+                        A new product has arrived which the customer might look forward to. He has already purchased similar products. A new product
+                        has arrived which the customer might look forward to. He has already purchased similar products.
+                        A new product has arrived which the customer might look forward to. He has already purchased similar
+                        products. A new product has arrived which the customer might look forward to. He has already purchased
+                        similar products. A new product has arrived which the customer might look forward to. He has already
+                        purchased similar products. A new product has arrived which the customer might look forward to. He
+                        has already purchased similar products. A new product has arrived which the customer might look forward
+                        to. He has already purchased similar products.
+                    </p>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="row widget-border">
+        <div class="col-xs-12 widget-image-position">
+            <button id="btnRecomment1" type="button" class="btn btn-default widget-button" onclick="updateRecommendation(false,1)">Recommend</button>
+<button id="btnAccept1" type="button" class="btn btn-default widget-button pull-right" onclick="updateRecommendation(true,1)">Accept</button>
+
+</div>
+
+
+</div>
+</div>
+
+<div class="widget-recomm">
+    <div class="row widget-spacing widget-scroll">
+        <div class="media">
+            <div class="media-left widget-image">
+                <a href="#">
+                    <img class="media-object widget-object" src="images/dew.png" alt="...">
+                </a>
+            </div>
+            <div class="media-body">
+                <h5 class="media-heading widget-bold">Cross sell Product - $100 </h5>
+                <div class="recom-scrol-container">
+                    <p class="recom-scrol-content">
+                        A new product has arrived which the customer might look forward to. He has already purchased similar products. A new product
+                        has arrived which the customer might look forward to. He has already purchased similar products.
+                        A new product has arrived which the customer might look forward to. He has already purchased similar
+                        products. A new product has arrived which the customer might look forward to. He has already purchased
+                        similar products. A new product has arrived which the customer might look forward to. He has already
+                        purchased similar products. A new product has arrived which the customer might look forward to. He
+                        has already purchased similar products. A new product has arrived which the customer might look forward
+                        to. He has already purchased similar products.
+                    </p>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="row widget-border">
+        <div class="col-xs-12 widget-image-position">
+            <button id="btnRecomment1" type="button" class="btn btn-default widget-button" onclick="updateRecommendation(false,1)">Recommend</button>
+<button id="btnAccept1" type="button" class="btn btn-default widget-button pull-right" onclick="updateRecommendation(true,1)">Accept</button>
+
+</div>
+
+
+</div>
+</div>
+<div class="widget-recomm">
+    <div class="row widget-spacing widget-scroll">
+        <div class="media">
+            <div class="media-left widget-image">
+                <a href="#">
+                    <img class="media-object widget-object" src="images/dew.png" alt="...">
+                </a>
+            </div>
+            <div class="media-body">
+                <h5 class="media-heading widget-bold">Cross sell Product - $100 </h5>
+                <div class="recom-scrol-container">
+                    <p class="recom-scrol-content">
+                        A new product has arrived which the customer might look forward to. He has already purchased similar products. A new product
+                        has arrived which the customer might look forward to. He has already purchased similar products.
+                        A new product has arrived which the customer might look forward to. He has already purchased similar
+                        products. A new product has arrived which the customer might look forward to. He has already purchased
+                        similar products. A new product has arrived which the customer might look forward to. He has already
+                        purchased similar products. A new product has arrived which the customer might look forward to. He
+                        has already purchased similar products. A new product has arrived which the customer might look forward
+                        to. He has already purchased similar products.
+                    </p>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="row widget-border">
+        <div class="col-xs-12 widget-image-position">
+            <button id="btnRecomment1" type="button" class="btn btn-default widget-button" onclick="updateRecommendation(false,1)">Recommend</button>
+<button id="btnAccept1" type="button" class="btn btn-default widget-button pull-right" onclick="updateRecommendation(true,1)">Accept</button>
+
+</div>
+
+
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+</body>
+
+
+</html>
